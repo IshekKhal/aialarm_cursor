@@ -55,6 +55,15 @@ class RingtoneManager {
     return ringtoneNames[ringtoneIndex];
   }
 
+  // iOS notification sounds must be part of the iOS app bundle (not Flutter assets)
+  // and must use supported formats like .caf/.aiff/.wav, typically < 30s.
+  // We assume files named: ringtone_1.caf ... ringtone_10.caf added to Runner target.
+  DarwinNotificationSound getIosNotificationSound(int ringtoneIndex) {
+    final idx = (ringtoneIndex >= 0 && ringtoneIndex < 10) ? ringtoneIndex : 0;
+    final name = 'ringtone_${idx + 1}.caf';
+    return DarwinNotificationSound(name);
+  }
+
   Future<void> previewRingtone(int ringtoneIndex) async {
     await stopPreview();
     final assetPath = getRingtoneAssetPath(ringtoneIndex);

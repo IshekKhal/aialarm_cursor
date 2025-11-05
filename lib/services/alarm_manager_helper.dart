@@ -17,7 +17,14 @@ class AlarmManagerHelper {
     tz_data.initializeTimeZones();
     
     const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const iosSettings = DarwinInitializationSettings();
+    const iosSettings = DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+      defaultPresentAlert: true,
+      defaultPresentSound: true,
+      defaultPresentBadge: true,
+    );
     const initSettings = InitializationSettings(
       android: androidSettings,
       iOS: iosSettings,
@@ -26,6 +33,15 @@ class AlarmManagerHelper {
     await _notifications.initialize(
       initSettings,
       onDidReceiveNotificationResponse: _onNotificationTapped,
+    );
+
+    // Explicitly request iOS permissions (iOS 10+)
+    final darwinPlugin = _notifications
+        .resolvePlatformSpecificImplementation<DarwinFlutterLocalNotificationsPlugin>();
+    await darwinPlugin?.requestPermissions(
+      alert: true,
+      badge: true,
+      sound: true,
     );
 
     _initialized = true;
@@ -58,8 +74,10 @@ class AlarmManagerHelper {
       sound: RawResourceAndroidNotificationSound('ringtone_${alarm.ringtoneIndex + 1}'),
     );
 
-    const iosDetails = DarwinNotificationDetails();
-    const notificationDetails = NotificationDetails(
+    final iosDetails = DarwinNotificationDetails(
+      sound: RingtoneManager.instance.getIosNotificationSound(alarm.ringtoneIndex),
+    );
+    final notificationDetails = NotificationDetails(
       android: androidDetails,
       iOS: iosDetails,
     );
@@ -111,8 +129,10 @@ class AlarmManagerHelper {
           sound: RawResourceAndroidNotificationSound('ringtone_${alarm.ringtoneIndex + 1}'),
         );
 
-        const iosDetails = DarwinNotificationDetails();
-        const notificationDetails = NotificationDetails(
+        final iosDetails = DarwinNotificationDetails(
+          sound: RingtoneManager.instance.getIosNotificationSound(alarm.ringtoneIndex),
+        );
+        final notificationDetails = NotificationDetails(
           android: androidDetails,
           iOS: iosDetails,
         );

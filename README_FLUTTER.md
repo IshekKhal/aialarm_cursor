@@ -54,14 +54,18 @@ Supported formats: MP3, OGG, WAV
 flutter run
 ```
 
-## Permissions
+## Platform Permissions
 
-The app requires the following permissions (automatically requested):
+### Android
 - `SCHEDULE_EXACT_ALARM` - For scheduling exact alarm times
 - `USE_EXACT_ALARM` - For exact alarm functionality
 - `POST_NOTIFICATIONS` - For displaying alarm notifications (Android 13+)
 - `WAKE_LOCK` - To wake up the device when alarm rings
 - `VIBRATE` - For vibration when alarm rings
+
+### iOS
+- Notification permission is requested at runtime (alert, sound, badge)
+- Notification sounds must be bundled in the iOS app (see `IOS_SETUP.md`)
 
 ## Project Structure
 
@@ -136,8 +140,8 @@ flutter run
 
 ## Notes
 
-- Ringtones are stored securely in app assets
-- No file paths are exposed in the frontend
-- Ringtone selection is stored as index (0-9) in database
-- All audio files are bundled with the app
+- Android: Ringtones for notifications use `res/raw`-style names automatically mapped by the app
+- iOS: Notification sounds must be added to the Runner bundle (`ringtone_1.caf` ... `ringtone_10.caf`)
+- In-app ringing playback uses Flutter assets (mp3) cross-platform
+- No file paths are exposed in the frontend; ringtone selection is stored as index (0-9)
 
