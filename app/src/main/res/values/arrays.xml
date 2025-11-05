@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ringtone_names">
+        <item>Classic Alarm</item>
+        <item>Morning Breeze</item>
+        <item>Digital Wake</item>
+        <item>Gentle Chime</item>
+        <item>Nature Sounds</item>
+        <item>Electronic Pulse</item>
+        <item>Soft Melody</item>
+        <item>Rising Sun</item>
+        <item>Peaceful Dawn</item>
+        <item>Energize</item>
+    </string-array>
+</resources>
+
